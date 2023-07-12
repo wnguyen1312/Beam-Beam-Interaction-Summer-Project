@@ -1,0 +1,329 @@
+#################################
+########## MY CONSTANTS #########
+#################################
+my_constants.mc2 = m_e*clight*clight
+my_constants.nano = 1.0e-9
+my_constants.GeV = q_e*1.e9
+my_constants.micro = 1.e-6
+
+# BEAMS
+my_constants.nmacropart = 50000000
+my_constants.beam_energy = 250.*GeV
+my_constants.beam_npart = 2.e10
+my_constants.gammab = beam_energy/(mc2)
+my_constants.chargeb = q_e*beam_npart 
+my_constants.sigmaz = 300.*micro
+my_constants.sigmax = 8062.2577*nano
+my_constants.sigmay = 119.7914855*nano
+my_constants.beam_uth = 0.0 
+my_constants.n0 = chargeb / (q_e * sigmax * sigmay * sigmaz * (2.*pi)**(3./2.))
+
+# BOX
+my_constants.Lz = 16*sigmaz
+my_constants.Ly = 8*sigmay
+my_constants.Lx = 8*sigmax
+my_constants.nz = 512
+my_constants.ny = 32
+my_constants.nx = 64
+my_constants.dx = Lx/nx
+my_constants.dy = Ly/ny
+my_constants.dz = Lz/nz
+
+# TIME
+my_constants.T = 0.75*Lz/clight
+#my_constants.cfl = 0.9999
+my_constants.dt = sigmaz / clight / 20. #cfl/clight/sqrt((1./dx)^2+(1./dy)^2+(1./dz)^2)
+my_constants.nt = floor(T/dt)
+
+# DIAGS
+my_constants.hundo = floor(nt/100.)
+my_constants.out_freq_red = 1.
+my_constants.out_freq_full = hundo
+my_constants.every_full = hundo
+
+#################################
+####### GENERAL PARAMETERS ######
+#################################
+stop_time = T
+amr.n_cell = nx ny nz
+amr.max_grid_size = 512
+amr.blocking_factor = 2
+amr.max_level = 0
+geometry.dims = 3
+geometry.prob_lo = -0.5*Lx -0.5*Ly -0.5*Lz
+geometry.prob_hi =  0.5*Lx  0.5*Ly  0.5*Lz
+
+#################################
+######## BOUNDARY CONDITION #####
+#################################
+boundary.field_lo = PEC PEC PEC
+boundary.field_hi = PEC PEC PEC
+boundary.particle_lo = absorbing absorbing absorbing
+boundary.particle_hi = absorbing absorbing absorbing
+#################################
+############ NUMERICS ###########
+#################################
+
+algo.maxwell_solver = ckc #using electromagnetic solver
+warpx.cfl = cfl #choosing timestep 
+
+#warpx.do_electrostatic = relativistic
+#warpx.const_dt = dt 
+
+warpx.grid_type = collocated
+algo.field_gathering = momentum-conserving
+
+algo.particle_shape = 3
+algo.load_balance_intervals=100
+
+algo.particle_pusher = vay
+
+#################################
+########### PARTICLES ###########
+#################################
+particles.species_names = beam_e beam_p pho ele pos
+particles.photon_species = pho 
+
+my_constants.mux = 0.0
+my_constants.muy = 0.0
+my_constants.muz = -0.5*Lz+3.1*sigmaz
+
+beam_e.species_type = electron
+
+#giving momentum and density distribution. Both gaussian
+
+beam_e.momentum_distribution_type = gaussian
+beam_e.uz_m = gammab
+beam_e.uy_m = 0.0
+beam_e.ux_m = 0.0
+beam_e.ux_th = beam_uth
+beam_e.uy_th = beam_uth
+beam_e.uz_th = beam_uth
+beam_e.initialize_self_fields = 1
+beam_e.self_fields_required_precision = 5e-10
+beam_e.self_fields_max_iters = 10000 
+beam_e.do_qed_quantum_sync = 1
+beam_e.qed_quantum_sync_phot_product_species = pho
+beam_e.do_classical_radiation_reaction = 0
+
+beam_e.injection_style = NRandomPerCell
+beam_e.num_particles_per_cell = 20
+beam_e.profile = parse_density_function
+beam_e.density_function(x,y,z) = "n0 *  exp(-(x-mux)**2/(2*sigmax**2))  * exp(-(y-muy)**2/(2*sigmay**2)) * exp(-(z-muz)**2/(2*sigmaz**2))"
+beam_e.density_min = n0 / 1e4
+
+
+
+
+beam_p.species_type = positron
+
+
+beam_p.momentum_distribution_type = gaussian
+beam_p.uz_m = -gammab
+beam_p.uy_m = 0.0
+beam_p.ux_m = 0.0
+beam_p.ux_th = beam_uth
+beam_p.uy_th = beam_uth
+beam_p.uz_th = beam_uth
+beam_p.initialize_self_fields = 1
+beam_p.self_fields_required_precision = 5e-10
+beam_p.self_fields_max_iters = 10000 
+beam_p.do_qed_quantum_sync = 1
+beam_p.qed_quantum_sync_phot_product_species = pho 
+beam_p.do_classical_radiation_reaction = 0
+
+beam_p.injection_style = NRandomPerCell
+beam_p.num_particles_per_cell = 20
+beam_p.profile = parse_density_function
+beam_p.density_function(x,y,z) = "n0 *  exp(-(x-mux)**2/(2*sigmax**2))  * exp(-(y-muy)**2/(2*sigmay**2)) * exp(-(z+muz)**2/(2*sigmaz**2))"
+beam_p.density_min = n0 / 1e4
+
+
+
+pho.species_type = photon 
+pho.injection_style = none 
+pho.do_qed_breit_wheeler = 1
+pho.qed_breit_wheeler_ele_product_species = ele
+pho.qed_breit_wheeler_pos_product_species = pos
+
+ele.species_type = electron 
+ele.injection_style = none 
+ele.do_qed_quantum_sync = 1
+ele.qed_quantum_sync_phot_product_species = pho 
+ele.do_classical_radiation_reaction = 0
+
+pos.species_type = positron
+pos.injection_style = none
+pos.do_qed_quantum_sync = 1
+pos.qed_quantum_sync_phot_product_species = pho 
+pos.do_classical_radiation_reaction = 0
+
+#################################
+############# QED ###############
+#################################
+qed_qs.photon_creation_energy_threshold = 0.
+
+qed_qs.lookup_table_mode = load
+qed_qs.load_table_from = /pscratch/sd/w/wnguyen/collider/qs_table_chi_min_1e-3_chi_max_1e3_points_512
+qed_qs.chi_min = 1.e-3
+
+qed_bw.lookup_table_mode = load
+qed_bw.chi_min = 1.e-2
+qed_bw.load_table_from = /pscratch/sd/w/wnguyen/collider/bw_table_chi_min_1e-2_chi_max_1e3_points_512
+
+warpx.do_qed_schwinger = 0.
+
+#################################
+######### DIAGNOSTICS ###########
+#################################
+# FULL
+diagnostics.diags_names = field_zx field_zy full some_part
+
+field_zx.intervals = every_full
+field_zx.diag_type = Full
+field_zx.write_species = 0
+field_zx.fields_to_plot = Ex Ey Ez Bx By Bz rho_beam_e rho_beam_p rho_pho rho_ele rho_pos
+field_zx.format = openpmd
+field_zx.openpmd_backend = bp
+field_zx.dump_last_timestep = 1
+field_zx.diag_lo = -0.5*Lx  0. -0.5*Lz
+field_zx.diag_hi =  0.5*Lx  0.  0.5*Lz
+
+field_zy.intervals = every_full
+field_zy.diag_type = Full
+field_zy.write_species = 0
+field_zy.fields_to_plot = Ex Ey Ez Bx By Bz rho_beam_e rho_beam_p rho_pho rho_ele rho_pos 
+field_zy.format = openpmd
+field_zy.openpmd_backend = bp
+field_zy.dump_last_timestep = 1
+field_zy.diag_lo = 0. -0.5*Ly  -0.5*Lz
+field_zy.diag_hi = 0.  0.5*Ly   0.5*Lz
+
+some_part.intervals = every_full
+some_part.diag_type = Full
+some_part.species = beam_e beam_p pho ele pos
+#some_part.beam_e.random_fraction = 0.5
+#some_part.beam_p.random_fraction = 0.5
+
+some_part.beam_e.uniform_stride	= 10
+some_part.beam_p.uniform_stride = 10
+
+some_part.fields_to_plot = none
+some_part.format = openpmd
+some_part.openpmd_backend = bp
+some_part.dump_last_timestep = 1
+
+full.intervals = every_full
+full.diag_type = Full
+full.write_species = 1
+full.fields_to_plot = Ey Ez By Bz rho_beam_e rho_beam_p rho_ele rho_pos 
+full.format = openpmd
+full.openpmd_backend = bp
+full.dump_last_timestep = 1
+
+# REDUCED
+warpx.reduced_diags_names = FieldEnergy FieldMomentum FieldMaximum ParticleExtrema_beam_e ParticleExtrema_beam_p ParticleExtrema_pho ParticleExtrema_ele ParticleExtrema_pos ParticleEnergy ParticleMomentum RhoMaximum ParticleNumber BeamRelevant_beam_e BeamRelevant_beam_p BeamRelevant_pho BeamRelevant_ele BeamRelevant_pos dN_dE_pho dN_dE_ele dN_dE_pos dN_dE_beam_e dN_dE_beam_p 
+
+
+
+FieldEnergy.type = FieldEnergy
+FieldEnergy.intervals = out_freq_red
+
+FieldMomentum.type = FieldMomentum
+FieldMomentum.intervals = out_freq_red
+
+FieldMaximum.type = FieldMaximum
+FieldMaximum.intervals = out_freq_red
+
+ParticleExtrema_beam_e.type = ParticleExtrema
+ParticleExtrema_beam_e.intervals = out_freq_red
+ParticleExtrema_beam_e.species = beam_e
+
+ParticleExtrema_beam_p.type = ParticleExtrema
+ParticleExtrema_beam_p.intervals = out_freq_red
+ParticleExtrema_beam_p.species = beam_p
+
+ParticleExtrema_pho.type = ParticleExtrema
+ParticleExtrema_pho.intervals = out_freq_red
+ParticleExtrema_pho.species = pho
+
+ParticleExtrema_ele.type = ParticleExtrema
+ParticleExtrema_ele.intervals = out_freq_red
+ParticleExtrema_ele.species = ele
+
+ParticleExtrema_pos.type = ParticleExtrema
+ParticleExtrema_pos.intervals = out_freq_red
+ParticleExtrema_pos.species = pos
+
+ParticleEnergy.type = ParticleEnergy
+ParticleEnergy.intervals = out_freq_red
+
+ParticleMomentum.type = ParticleMomentum
+ParticleMomentum.intervals = out_freq_red
+
+RhoMaximum.type = RhoMaximum
+RhoMaximum.intervals = out_freq_red
+
+ParticleNumber.type = ParticleNumber
+ParticleNumber.intervals = out_freq_red
+
+BeamRelevant_beam_e.type = BeamRelevant
+BeamRelevant_beam_e.species = beam_e
+BeamRelevant_beam_e.intervals = out_freq_red
+
+BeamRelevant_beam_p.type= BeamRelevant
+BeamRelevant_beam_p.species = beam_p
+BeamRelevant_beam_p.intervals = out_freq_red
+
+BeamRelevant_pho.type = BeamRelevant
+BeamRelevant_pho.species = pho
+BeamRelevant_pho.intervals = out_freq_red
+
+BeamRelevant_ele.type = BeamRelevant
+BeamRelevant_ele.species = ele
+BeamRelevant_ele.intervals = out_freq_red
+
+BeamRelevant_pos.type = BeamRelevant
+BeamRelevant_pos.species = pos
+BeamRelevant_pos.intervals = out_freq_red
+
+dN_dE_pho.type = ParticleHistogram
+dN_dE_pho.species = pho
+dN_dE_pho.histogram_function(t,x,y,z,ux,uy,uz)=sqrt(ux*ux+uy*uy+uz*uz)
+dN_dE_pho.bin_number = 1024 
+dN_dE_pho.bin_max = gammab*0.5
+dN_dE_pho.bin_min = 0
+
+dN_dE_ele.type = ParticleHistogram
+dN_dE_ele.species = ele
+dN_dE_ele.histogram_function(t,x,y,z,ux,uy,uz)=sqrt(1.+ux*ux+uy*uy+uz*uz)
+dN_dE_ele.bin_number = 1024
+dN_dE_ele.bin_max = gammab*0.5
+dN_dE_ele.bin_min = 0
+
+dN_dE_pos.type = ParticleHistogram
+dN_dE_pos.species = pos
+dN_dE_pos.histogram_function(t,x,y,z,ux,uy,uz)=sqrt(1.+ux*ux+uy*uy+uz*uz)
+dN_dE_pos.bin_number = 1024
+dN_dE_pos.bin_max = gammab*0.5
+dN_dE_pos.bin_min = 0
+
+dN_dE_beam_e.type = ParticleHistogram
+dN_dE_beam_e.species = beam_e
+dN_dE_beam_e.histogram_function(t,x,y,z,ux,uy,uz)=sqrt(1.+ux*ux+uy*uy+uz*uz)
+dN_dE_beam_e.bin_number = 1024
+dN_dE_beam_e.bin_max = 2*gammab
+dN_dE_beam_e.bin_min = 0
+
+dN_dE_beam_p.type = ParticleHistogram
+dN_dE_beam_p.species = beam_p
+dN_dE_beam_p.histogram_function(t,x,y,z,ux,uy,uz)=sqrt(1.+ux*ux+uy*uy+uz*uz)
+dN_dE_beam_p.bin_number = 1024
+dN_dE_beam_p.bin_max = 2*gammab
+dN_dE_beam_p.bin_min = 0
+
+dN_dE_pho.intervals = out_freq_red
+dN_dE_ele.intervals = out_freq_red
+dN_dE_pos.intervals = out_freq_red
+dN_dE_beam_e.intervals = out_freq_red
+dN_dE_beam_p.intervals = out_freq_red

@@ -1,0 +1,24 @@
+$ACCELERATOR:: ILC-1TeV_A1
+{energy=500.0;
+particles=1.74;
+beta_x=22.6;
+beta_y=0.25;
+emitt_x=10.0;e
+mitt_y=0.030;
+sigma_z=250.0;
+charge_sign=-1;
+scale_step=1.0;
+waist_y=190;
+espread.1=0.00083;
+espread.2=0.00043;}
+
+
+
+
+$PARAMETERS:: par
+{n_z=16;
+n_t=16;
+n_m=1000000;cut_z=3.5*sigma_z.1;n_x=128;n_y=128;cut_x=6*sigma_x.1;cut_y=6*sigma_y.1;ext_field=1;store_pairs=0;track_pairs=0;grids=0;
+pair_ecut=0.01;do_pairs=0;do_photons=1;do_hadrons=0;which_espread=3;do_lumi=4;num_lumi_eg=1000000;num_lumi=5000000;num_lumi_gg=5000000;
+do_jets=0;electron_ratio=0.1;photon_ratio=0.1;do_eloss=1;do_coherent=0;do_compt=0;do_trident=0;ecm_min=1.98*energy.1;store_photons=0;}
+

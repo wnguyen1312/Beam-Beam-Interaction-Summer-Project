@@ -1,0 +1,217 @@
+****************************************************** 
+* guineapig++ Version 1.2.2
+* Program written by Daniel Schulte at DESY and CERN 
+* object oriented by Guy Le Meur at LAL-Orsay 
+* contributions from C. Rimbault at LAL-Orsay 
+* B. Dalena, J. Esberg and J. Snuverink at CERN
+*
+* Compiled with FFTW:  UNKNOWN 
+**************************************************** 
+
+                                         
+ *********************************************************************** 
+ -------------  beam parameter 1 ------------ 
+             
+ energy : 125 GeV ; particles : 2e+10
+  sigma_x  : 515.48 nm ;  sigma_y : 7.65916 nm ; sigma_z : 300 micrometers 
+ emitt_x : 5 emitt_y : 0.035  (mm.mrad) 
+ beta_x : 13000 beta_y : 410 (micrometers) 
+ offset_x : 0 nm ; offset_y : 0 nm ; offset_z : 0 micrometers 
+ waist_x : 0 waist_y : 250 (micrometers) 
+ angle_x : 0 angle_y : 0 angle_phi : 0 (radians) 
+ type of distribution charge :  dist_x : 0 dist_z : 0
+ initial polarization (ONLY FOR bmt_precession = 1 and internally generated beam) : polar_x = 0 polar_y = 0 polar_z = 1
+                                         
+ *********************************************************************** 
+ -------------  beam parameter 2 ------------ 
+             
+ energy : 125 GeV ; particles : 2e+10
+  sigma_x  : 515.48 nm ;  sigma_y : 7.65916 nm ; sigma_z : 300 micrometers 
+ emitt_x : 5 emitt_y : 0.035  (mm.mrad) 
+ beta_x : 13000 beta_y : 410 (micrometers) 
+ offset_x : -0 nm ; offset_y : -0 nm ; offset_z : -0 micrometers 
+ waist_x : 0 waist_y : 250 (micrometers) 
+ angle_x : 0 angle_y : 0 angle_phi : 0 (radians) 
+ type of distribution charge :  dist_x : 0 dist_z : 0
+ initial polarization (ONLY FOR bmt_precession = 1 and internally generated beam) : polar_x = 0 polar_y = 0 polar_z = 1
+                                         
+ *********************************************************************** 
+ ------------- SWITCHES :  ------------ 
+             
+charge_sign = -1
+bmt_precession = 0
+ST_spin_flip = 0
+do_bds_spin_rotation = 0
+automatic_grid_sizing = 0
+integration_method = 2 force_symmetric = 0
+rndm_load = 1rndm_save = 1 rndm_seed = 1
+do_photons.1 = 0 do_photons.2 = 0
+write_photons = 0
+do_comp = 0 do_prod = 0
+electron_ratio = 0.1
+compt_x_min = 1 compt_emax = 100 GeV ; compt_scale = 1
+do_lumi = 1num_lumi = 5000000 lumi_p = 1e-29
+do_cross = 0 do_isr = 0 do_espread = 0
+photon_ratio = 0.1
+do_hadrons = 0 store_hadrons = 0 hadron_ratio = 100000
+do_jets = 0 store_jets = 0
+do_pairs = 0 load_events = 0
+track_pairs = 0 pair_step = 1
+store_pairs = 0
+bhabha_scal = 1e-29 bhabha_ecmload = 500 GeV 
+do_muons = 0 track_muons = 0 store_muons = 0
+muon_ratio = 1 muon_scale = 1 muon_ecut = 0.105
+do_coherent = 0
+do_trident = 0
+emin = 0
+grids = 1
+pair_ecut = 0.01 GeV 
+pair_ratio = 1
+bhabha_ratio = 1
+pair_q2 = 2
+beam_pair = 0
+jet_ratio = 100000
+jet_ptmin = 2
+jet_pythia = 0
+jet_log = 1
+beam_size = 1 beam_size_scale = 1 ext_field = 1
+espread.1 = 0.0019 which_espread.1 = 3 espread.2 = 0.00152 which_espread.2 = 3
+f_rep = 5 n_b = 1312
+do_edm4hep = 0
+                                         
+ *********************************************************************** 
+ ------------- grid parameters ------------ 
+             
+n_x = 128 n_y = 128
+n_z = 16 n_t = 16
+n_m.1 = 1000000 n_m.2 = 1000000
+cut_x = 3092.88 nm ; cut_y = 45.9549 nm ; cut_z = 1050 micrometers 
+
+ ...................................................... 
+ relative amount of interacting particles that were outside the grid during one time step : 
+beam 1 : miss = 0.0416667  beam 2 : miss = 0.0518018
+ number of interacting part. that were outside the grid during one time step : 
+out.1=448;out.2=1197;
+                                         
+ *********************************************************************** 
+ ------------- beam1 ------------ 
+             
+ ---------- particle beam : 
+ total number of coherent particles is 0 with 0 GeV 
+ number of tracked macroparticles : 999486
+average energy loss of the beam particles (GeV) : de = 3.5644
+ ---photon statistics : 
+ initial : 
+ initial average photon energy (GeV) phot-e1 : 1.76584
+ initial number of phot. per tracked macropart.1 : 2.01853
+ final : 
+ final average photon energy (GeV) phot-e1 : 1.76584
+ final number of phot. per tracked macropart.1 : 2.01853
+
+phot-e1=1.76584;n_phot1=2.01853;
+de1=3.5644;
+                                         
+ *********************************************************************** 
+ ------------- beam2 ------------ 
+             
+ ---------- particle beam : 
+ total number of coherent particles is 0 with 0 GeV 
+ number of tracked macroparticles : 999512
+average energy loss of the beam particles (GeV) : de = 3.57135
+ ---photon statistics : 
+ initial : 
+ initial average photon energy (GeV) phot-e2 : 1.76583
+ initial number of phot. per tracked macropart.2 : 2.02247
+ final : 
+ final average photon energy (GeV) phot-e2 : 1.76583
+ final number of phot. per tracked macropart.2 : 2.02247
+
+phot-e2=1.76583;n_phot2=2.02247;
+de2=3.57135;
+                                         
+ *********************************************************************** 
+ ------------- general results ------------ 
+             
+lumi_fine = 2.24016e+34 m**(-2) (from charge densities) 
+lumi_ee = 2.25724e+34 m**(-2) (from beam particles collisions)
+lumi_ee_high = 1.45805e+34 1/m2 (per bunch cross. above energy ecm_min)
+lumi_pp = 0 m**(-2) 
+lumi_eg = 0 m**(-2) (e - gamma) 
+lumi_ge = 0 m**(-2) ( gamma - e) 
+lumi_gg = 0 m**(-2) (gamma - gamma) 
+lumi_gg_high = 0 1/m2 (gamma - gamma, with c.o.m energy more than gg_cut) 
+lumi[0][0] = 0
+lumi[0][1] = 1.48075e+38
+lumi[0][2] = 0
+lumi[1][0] = 0
+lumi[1][1] = 0
+lumi[1][2] = 0
+lumi[2][0] = 0
+lumi[2][1] = 0
+lumi[2][2] = 0
+upsmax= 0.332007 (maximal value of the beamstrahlung paramater that occured) 
+E_cm = 246.057 E_cm_var = 7.21912
+ ............................................... 
+ average and RMS angles (x or y) of the particles of each beam after the interaction (microradians) : 
+bpm_vx.1=0.543528;bpm_sig_vx.1=592.465;
+bpm_vy.1=3.79288;bpm_sig_vy.1=39.1949;
+bpm_vx.2=-1.52173;bpm_sig_vx.2=592.586;
+bpm_vy.2=-3.68143;bpm_sig_vy.2=39.8132;
+ average and RMS angles (x or y) including coherent particles of each beam after the interaction (microradians) : 
+bpm_vx_coh.1=0.543528;
+bpm_vy_coh.1=3.79288;
+bpm_vx_coh.2=-1.52173;
+bpm_vy_coh.2=-3.68143;
+ ............................................... 
+ minimal photon-photon center of mass energies for hadronic events (GeV) : 
+hadron_cut.1=2;hadron_cut.2=5;hadron_cut.3=10;
+ nb of hadronic events per bunch crossing due to the virtual photons in ee collisions : 
+hadrons_ee.1=0;hadrons_ee.2=0;hadrons_ee.3=0;
+ nb of hadronic evts per bx due to e-gamma collisions 
+hadrons_eg.1=0;hadrons_eg.2=0;hadrons_eg.3=0;
+ .. due to gamma-e collisions : 
+hadrons_ge.1=0;hadrons_ge.2=0;hadrons_ge.3=0;
+ ... due to gamma-gamma collisions : 
+hadrons_gg.1=0;hadrons_gg.2=0;hadrons_gg.3=0;
+ ... due to all types of collisions : 
+hadrons_sum.1=0;hadrons_sum.2=0;hadrons_sum.3=0;
+ ............................................... 
+
+lumi_ee=2.25724e+34;
+lumi_ee_high=1.45805e+34;
+step   lumi total   lumi peak 
+1  4.82702e+27  4.82702e+27
+2  3.74635e+28  3.74635e+28
+3  1.99637e+29  1.99637e+29
+4  7.49774e+29  7.49774e+29
+5  2.61394e+30  2.61048e+30
+6  8.01214e+30  7.98642e+30
+7  2.22164e+31  2.20138e+31
+8  5.49658e+31  5.40225e+31
+9  1.29264e+32  1.25951e+32
+10  3.01293e+32  2.9014e+32
+11  6.19718e+32  5.84029e+32
+12  1.0027e+33  9.12598e+32
+13  1.61101e+33  1.39743e+33
+14  2.06321e+33  1.69183e+33
+15  2.53031e+33  1.93994e+33
+16  2.7388e+33  1.95016e+33
+17  2.66355e+33  1.72914e+33
+18  2.36242e+33  1.39333e+33
+19  1.95036e+33  1.01164e+33
+20  1.46646e+33  6.58656e+32
+21  1.15896e+33  4.19783e+32
+22  1.00704e+33  2.51593e+32
+23  6.06207e+32  1.03069e+32
+24  1.91678e+32  2.47665e+31
+25  5.86638e+31  6.47686e+30
+26  1.64722e+31  1.75617e+30
+27  4.24123e+30  4.53164e+29
+28  1.00417e+30  1.0252e+29
+29  2.14839e+29  2.44954e+28
+30  3.6671e+28  3.45817e+27
+31  3.24203e+27  2.16135e+26
+                                         
+ *********************************************************************** 
+ ------------- other information  ------------ 
+             

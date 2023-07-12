@@ -1,0 +1,12 @@
+[workspace]
+restore_data_on_startup = True
+save_data_on_exit = True
+save_history = True
+save_non_project_files = False
+project_type = 'empty-project-type'
+recent_files = ['ultra_tight\\ultra_tight_bunch_analysis.py', 'ultra_tight\\NPQED.out', 'ILC-analysis.py']
+
+[main]
+version = 0.2.0
+recent_files = []
+
