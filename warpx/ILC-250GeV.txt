@@ -64,11 +64,11 @@ boundary.particle_hi = absorbing absorbing absorbing
 ############ NUMERICS ###########
 #################################
 
-algo.maxwell_solver = ckc #using electromagnetic solver
-warpx.cfl = cfl #choosing timestep 
+#algo.maxwell_solver = ckc #using electromagnetic solver
+#warpx.cfl = cfl #choosing timestep 
 
-#warpx.do_electrostatic = relativistic
-#warpx.const_dt = dt 
+warpx.do_electrostatic = relativistic
+warpx.const_dt = dt 
 
 warpx.grid_type = collocated
 algo.field_gathering = momentum-conserving
@@ -164,12 +164,12 @@ pos.do_classical_radiation_reaction = 0
 qed_qs.photon_creation_energy_threshold = 0.
 
 qed_qs.lookup_table_mode = load
-qed_qs.load_table_from = /pscratch/sd/w/wnguyen/collider/qs_table_chi_min_1e-3_chi_max_1e3_points_512
+qed_qs.load_table_from = /pscratch/sd/w/wnguyen/collider_fork_ver_2/qs_table_chi_min_1e-3_chi_max_1e3_points_512
 qed_qs.chi_min = 1.e-3
 
 qed_bw.lookup_table_mode = load
 qed_bw.chi_min = 1.e-2
-qed_bw.load_table_from = /pscratch/sd/w/wnguyen/collider/bw_table_chi_min_1e-2_chi_max_1e3_points_512
+qed_bw.load_table_from = /pscratch/sd/w/wnguyen/collider_fork_ver_2/bw_table_chi_min_1e-2_chi_max_1e3_points_512
 
 warpx.do_qed_schwinger = 0.
 
