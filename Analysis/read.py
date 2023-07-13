@@ -179,3 +179,14 @@ def extract_particle_energy(filenames):
         energy_arrays.append(energy_array)
     
     return energy_arrays
+
+def get_bins(fname): #WarpX function to read histogram
+    my_bins = []
+    with open(fname) as f:
+        for line in f: 
+            if line.startswith('#'):
+                data = line.split()
+                for d in data[2:]:
+                    m = re.search('=(.*)\(\)', d)
+                    my_bins.append(m.group(1))
+    return np.asarray(my_bins, dtype=float)
