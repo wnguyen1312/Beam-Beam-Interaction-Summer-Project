@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-File to read the output of guinea-pig + some calculation functions
+File to read the output of guinea-pig + warpx + some analysis functions.
 
 
 Created on Wed Jun 28 20:28:37 2023
