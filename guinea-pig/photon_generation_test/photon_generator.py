@@ -93,3 +93,4 @@ def synrad_0_no_spin_flip(upsilonSingleP, eng, dzOnRadius):
     else:
         photonEnergy = 0.0
         return 0, photonEnergy
+
