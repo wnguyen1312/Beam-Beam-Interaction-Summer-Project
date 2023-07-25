@@ -125,7 +125,10 @@ def synrad_0_no_spin_flip(upsilonSingleP, eng, dzOnRadius):
         photonEnergy = 0.0
         return 0, photonEnergy
     
+
     
+#this function can be useful if we want to update the emitting particle energy
+#for when we go into cases where we want timesteps or evolution? 
 def initialize_beam_particles(energy, num_macro_particles, B, dz):
     """
     Initialize beam particles with a given energy and additional properties.
@@ -152,7 +155,8 @@ def initialize_beam_particles(energy, num_macro_particles, B, dz):
 
 
 
-#%% 
+#%% Start the photon generation proccess 
+
 import photon_generator
 
 dz = 1e-6 #not sure yet
@@ -170,10 +174,11 @@ for i in range(n_m):
     if result == 1:
         photon_energies.append(photon_energy)
 
-#%% Plotting
+#%% Plotting histogram 
+import matplotlib.pyplot as plt
+
 photon_data = photon_energies
 N_photons= len(photon_data)
-import matplotlib.pyplot as plt
 # Set up the histogram parameters
 bin_no = 500
 dE = (np.max(photon_data) - np.min(photon_data)) / bin_no
