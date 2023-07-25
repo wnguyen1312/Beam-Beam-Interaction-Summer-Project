@@ -43,7 +43,12 @@ def synradKi53andK23(x):
 
     return Ki53, K23
 
-
+#ok let's assume field and calculate upsilon. M
+#monoenergetic
+#what is the photon spectrum given those conditions? 
+#no time dependence 
+#compute dz from energy and momentum. + check formula for radius 
+#find dz/radius from that. 
 
 def synrad_0_no_spin_flip(upsilonSingleP, eng, dzOnRadius):
     #x = 0.0
@@ -58,11 +63,11 @@ def synrad_0_no_spin_flip(upsilonSingleP, eng, dzOnRadius):
     upsilon_bar = 1.5 * upsilon
     gamma = eng / EMASS  # Energy divided by mass of electron (in GeV)
     factor = (1.0 + 0.5 * upsilon_bar)**(1/3)
-    p0 = 1.297210720417891e-02 * dzOnRadius * gamma / factor
+    p0 = 1.297210720417891e-02 * dzOnRadius * gamma / factor #dt: time interval = dz in GP 
 
     rndm_generator = random.random()  # This is p in the Japanese paper
 
-    if rndm_generator > p0:
+    if rndm_generator > p0: #p vs p_0
         return 0, 0.0
 
     p1 = random.random()
@@ -83,7 +88,7 @@ def synrad_0_no_spin_flip(upsilonSingleP, eng, dzOnRadius):
     g = F00 * dxdy * factor / (9.67287708690521 * upsilon)
 
     if p1 < g:
-        photonEnergy = eng * x
+        photonEnergy = eng * x #formula 47
         return 1, photonEnergy
     else:
         photonEnergy = 0.0
