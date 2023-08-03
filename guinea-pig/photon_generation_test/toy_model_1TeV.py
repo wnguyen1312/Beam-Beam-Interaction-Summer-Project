@@ -1,24 +1,11 @@
 # -*- coding: utf-8 -*-
 """
-Created on Mon Jul 24 21:07:34 2023
+Created on Thu Jul 27 10:40:49 2023
 
-Toy model to compare WarpX and Guinea-Pig Photon-Generator
-
-General idea: use the assumptions and parameters of Luca's file to put into
-GP and use its method to generate photons.
-
-Assumptions: 
-    - Use the same number of macro-particles in both cases: 10k or 100k 
-    - Monoenergetic beam: 125 GeV each
-    - No time dependence
-    - Find dz from GP - this is essentially the time interval
-    - Find radius using the Lorentz equation (rmb relativistic correction)
-    - Input into photon_generator function: upsilon calculated from the eq,
-    eng = 125 GeV, dzOnRadius calculated.
-    
-@Author: William
-
+@author: willi
 """
+
+
 import numpy as np
 import math 
 import random
@@ -52,7 +39,7 @@ def find_radius(E, B): #energy in GeV, B in Tesla, radius in m
 def get_upsilon_particle(E, B):
     radius = find_radius(E,B)
     gamma = find_gamma_electron(E)
-    w_c = 3/2 * gamma*gamma*gamma * c /(radius)  #page 16 Daniel's thesis, this is u_c/h_bar in the Japanese paper
+    w_c = 3/2 * gamma*gamma*gamma * c /(radius)  #page 16 Daniel's thesis
     E = E * GeV #energy in J 
     upsilon = 2/3 * h_bar * w_c / E 
     return upsilon #good. matched with my previous estimate for pair calculation
@@ -160,15 +147,12 @@ def initialize_beam_particles(energy, num_macro_particles, B, dz):
 import photon_generator
 
 dz = 1e-6 #not sure yet
-# dz_2 = 1e-5
-# dz_3 = 1e-7 
 
-eng = 125 #125 GeV each beam. Mono-energetic 
+
+eng = 500 #125 GeV each beam. Mono-energetic 
 B = 2e+3 #around 1000 T
 upsilonSingleP = get_upsilon_particle(eng, B)
 dzOnRadius = dz/find_radius(eng, B)
-# dzOnRadius_2 = dz_2/find_radius(eng, B)
-# dzOnRadius_3 = dz_3/find_radius(eng, B)
 
 n_m = 100000000 #number of macro-particles
 
@@ -181,35 +165,21 @@ for i in range(n_m):
     if result == 1:
         photon_energies.append(photon_energy)
 
-# for i in range(n_m):
-#     result_2, photon_energy_2 = photon_generator.synrad_0_no_spin_flip(upsilonSingleP, eng, dzOnRadius_2)
-#     if result_2 == 1:
-#         photon_energies_2.append(photon_energy_2)
-
-# for i in range(n_m):
-#     result_3, photon_energy_3 = photon_generator.synrad_0_no_spin_flip(upsilonSingleP, eng, dzOnRadius_3)
-#     if result_3 == 1:
-#         photon_energies_3.append(photon_energy_3)
         
 #%% Plotting histogram 
 import matplotlib.pyplot as plt
 
 photon_data = photon_energies
-# photon_data_2 = photon_energies_2
-# photon_data_3 = photon_energies_3
 
 
 
 
 N_photons= len(photon_data)
-# N_photons_2= len(photon_data_2)
-# N_photons_3= len(photon_data_3)
 
 # Set up the histogram parameters
 bin_no = 500
 dE = (np.max(photon_data) - np.min(photon_data)) / bin_no
-# dE_2 = (np.max(photon_data_2) - np.min(photon_data_2)) / bin_no
-# dE_3 = (np.max(photon_data_3) - np.min(photon_data_3)) / bin_no
+
 
 
 # Create the figure and axes objects
@@ -221,18 +191,13 @@ H, bins = np.histogram(np.abs(photon_data), bins=bin_no)
 ax[0].plot(bins[:-1], H / N_photons / dE, label='dz = 1e-6')
 
 
-# H, bins = np.histogram(np.abs(photon_data_2), bins=bin_no)
-# ax[0].plot(bins[:-1], H / N_photons_2 / dE_2, label='1e-5')
-
-# H, bins = np.histogram(np.abs(photon_data_3), bins=bin_no)
-# ax[0].plot(bins[:-1], H / N_photons_3 / dE_3, label='1e-7')
 
 
 
 ax[0].set_xlabel('E [GeV]', fontsize=14)
 ax[0].set_xscale('log')
 ax[0].set_yscale('log')
-ax[0].set_xlim(0.1, 100)
+ax[0].set_xlim(0.1, 500)
 ax[0].set_title('1/N dN/dE photons', fontsize=14)
 ax[0].legend()
 ax[0].grid()
@@ -241,14 +206,8 @@ ax[0].grid()
 H_weighted, bins_weighted = np.histogram(np.abs(photon_data), bins=bin_no, weights=np.abs(photon_data))
 ax[1].plot(bins_weighted[:-1], H_weighted / N_photons / dE, label='1e-6')
 
-# H_weighted, bins_weighted = np.histogram(np.abs(photon_data_2), bins=bin_no, weights=np.abs(photon_data_2))
-# ax[1].plot(bins_weighted[:-1], H_weighted / N_photons_2 / dE_2, label='1e-5')
-
-# H_weighted, bins_weighted = np.histogram(np.abs(photon_data_3), bins=bin_no, weights=np.abs(photon_data_3))
-# ax[1].plot(bins_weighted[:-1], H_weighted / N_photons_3 / dE_3, label='1e-7')
-
 ax[1].set_xlabel('E [GeV]', fontsize=14)
-ax[1].set_xlim(0, 55)
+#ax[1].set_xlim(0, 100)
 ax[1].set_title('1/N d(E*N)/dE photons', fontsize=14)
 ax[1].legend()
 ax[1].grid()
