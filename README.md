@@ -7,4 +7,5 @@ Overview:
 - guinea-pig: contains the input and output files for ILC cases
 - reading: papers that I downloaded during my project
 
+Link to modified guinea-pig code: https://github.com/wnguyen1312/Modified-Guinea-Pig
 Link to my overleaf lab-book: https://www.overleaf.com/read/kyhhkrbxwqcr
